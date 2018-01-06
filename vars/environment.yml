@@ -1,0 +1,19 @@
+---
+ec2_region: us-west-2
+
+security_groups:
+  - name: devops
+    description: security group for devops
+    rules:
+      - protocol: tcp
+        ports:
+          - 80
+          - 8080
+          - 22
+        cidr_ip: 0.0.0.0/0
+
+ec2_instance:
+  - instance_type: t2.micro
+    keypair: id_rsa.pub
+    group: devops
+    image: ami-0def3275
