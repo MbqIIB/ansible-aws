@@ -7,9 +7,12 @@
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     rules:
-      - proto: "{{ item.rules.protocol }}"
-        ports: "{{ item.rules.ports }}"
-        cidr_ip: "{{ item.rules.cidr_ip }}"
+      - proto: tcp
+        ports:
+          - 80
+          - 8080
+          - 22
+        cidr_ip: 0.0.0.0/0
   with_items: "{{ security_groups }}"
 
 - name: Provision VM
