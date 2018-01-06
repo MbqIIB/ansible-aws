@@ -4,7 +4,7 @@
   connection: local
   gather_facts: False
   vars_files:
-    - vars/environment.yml
-    - vars/credentials.yml
+    - ../vars/environment.yml
+    - ../vars/credentials.yml
   roles:
     - provision
