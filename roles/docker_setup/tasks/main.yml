@@ -1,0 +1,45 @@
+---
+- name: install packages
+  apt:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ packages }}"
+
+- name: curl key
+  shell: "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -"
+
+- name: validate key
+  shell: "apt-key fingerprint 0EBFCD88"
+
+- name: Add Docker repository and update apt cache
+  apt_repository:
+    repo: "deb https://download.docker.com/linux/ubuntu xenial main"
+    mode: '644'
+    update_cache: yes
+    state: present
+
+- name: install docker
+  apt:
+    name: docker-ce
+    state: installed
+
+
+- name: Add user to the docker group
+  user:
+    name: "tuansible"
+    groups: docker
+    append: yes
+
+- name: Create systemd configuration directory for Docker service (systemd)
+  file:
+    dest: /etc/systemd/system/docker.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: reload daemon
+  command: systemctl daemon-reload
+
+- name: restart docker
+  command: service docker restart

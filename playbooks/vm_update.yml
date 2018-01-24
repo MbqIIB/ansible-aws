@@ -1,0 +1,7 @@
+---
+- name: Update virtual Machines
+  hosts: all
+  become: yes
+  become_method: sudo
+  roles:
+    - vm_update

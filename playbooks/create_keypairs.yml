@@ -1,0 +1,10 @@
+---
+- name: Create AWS VM
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - ../vars/environment.yml
+    - ../vars/credentials.yml
+  roles:
+    - aws_keypair
