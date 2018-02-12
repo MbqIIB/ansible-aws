@@ -1,0 +1,8 @@
+---
+- name: Install kubectl
+  command: "kops create cluster --zones={{ aws_region }} {{ route53_domain }}"
+  register: kops_create_result
+
+- name: print kops create
+  debug:
+    var: "{{ kops_create_result }}"

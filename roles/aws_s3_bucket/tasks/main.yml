@@ -1,0 +1,10 @@
+---
+# http://docs.ansible.com/ansible/latest/s3_bucket_module.html
+- name: Create S3 Bucket
+  s3_bucket:
+    name: mys3bucket
+    policy: "{{ lookup('file','policy.json') }}"
+    requester_pays: yes
+    versioning: yes
+    tags:
+      kubernetes: mybucket

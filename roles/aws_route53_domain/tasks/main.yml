@@ -1,0 +1,7 @@
+---
+# http://docs.ansible.com/ansible/latest/route53_zone_module.html
+- name: create public zone
+  route53_zone:
+    zone: example.com
+    state: present
+    comment: this is an example
