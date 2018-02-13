@@ -7,5 +7,5 @@
     - ../vars/environment.yml
     - ../vars/credentials.yml
   roles:
+    - setup_localhost
     - provision_ansible_vm
-    - ansible_setup
