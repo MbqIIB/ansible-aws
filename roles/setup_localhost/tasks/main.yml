@@ -15,7 +15,6 @@
   lineinfile:
     dest: /etc/environment
     state: present
-    backrefs: yes
     line: "AWS_ACCESS_KEY_ID={{ item }}"
   with_items: "{{ ec2_access_key }}"
 
@@ -23,7 +22,6 @@
   lineinfile:
     dest: /etc/environment
     state: present
-    backrefs: yes
     line: "AWS_SECRET_ACCESS_KEY={{ item }}"
   with_items: "{{ ec2_secret_key }}"
 
@@ -31,12 +29,10 @@
   lineinfile:
     dest: /etc/environment
     state: present
-    backrefs: yes
     line: "ANSIBLE_HOSTS=/etc/ansible/ec2.py"
 
 - name: Set EC2 INI Environment Variables
   lineinfile:
     dest: /etc/environment
     state: present
-    backrefs: yes
     line: "EC2_INI_PATH=/etc/ansible/ec2.ini"
