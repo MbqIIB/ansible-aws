@@ -1,0 +1,12 @@
+---
+- name: Configure Ansible VM for Kubernetes Install
+  hosts: tag_vm_ansible
+  gather_facts: False
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ../vars/environment.yml
+    - ../vars/credentials.yml
+  roles:
+    - ansible_setup
+    - kubernetes_prepare

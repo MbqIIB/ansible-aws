@@ -7,4 +7,4 @@ packages:
     - software-properties-common
     - nano
     - wget
-    - pip
+    - python-pip
