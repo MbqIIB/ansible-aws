@@ -17,7 +17,7 @@
     state: present
     backrefs: yes
     regexp: 'AWS_ACCESS_KEY_ID=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
-    line: "AWS_ACCESS_KEY_ID=\1\2:{{ item }}\3"
+    line: "AWS_ACCESS_KEY_ID={{ item }}"
   with_items: "{{ ec2_access_key }}"
 
 - name: Set AWS Secret Key Environment Variables
@@ -26,5 +26,5 @@
     state: present
     backrefs: yes
     regexp: 'AWS_SECRET_ACCESS_KEY=(["]*)((?!.*?{{ item }}).*?)(["]*)$'
-    line: "AWS_SECRET_ACCESS_KEY=\1\2:{{ item }}\3"
+    line: "AWS_SECRET_ACCESS_KEY={{ item }}"
   with_items: "{{ ec2_secret_key }}"
