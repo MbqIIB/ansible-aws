@@ -8,4 +8,4 @@
     - ../vars/credentials.yml
   roles:
     - setup_localhost
-    - provision_ansible_vm
+#    - provision_ansible_vm
