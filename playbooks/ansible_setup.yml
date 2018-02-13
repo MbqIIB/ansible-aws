@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: False
+  become: yes
+  become_method: sudo
   vars_files:
     - ../vars/environment.yml
     - ../vars/credentials.yml
