@@ -1,5 +1,3 @@
 ---
-- import_playbook: localhost_configuration.yml
-- import_playbook: ansible_provision.yml
 - import_playbook: ansible_configuration.yml
 - import_playbook: kubernetes_configuration.yml
