@@ -10,8 +10,7 @@
     image: "{{ ec2_image }}"
     instance_tags:
       kube: "{{ item }}"
-    exact_count: 1
-    count_tag: dev
+    count: 6
     wait: true
   register: ec2
   with_items: "{{ kubernetes_cluster }}"
