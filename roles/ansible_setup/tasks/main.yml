@@ -1,30 +1,6 @@
 ---
-- name: Make sure we have a 'wheel' group
-  group:
-    name: wheel
-    state: present
+- import_tasks: prerequisite.yml
+  become: yes
+  become_method: sudo
 
-- name: Allow 'wheel' group to have passwordless sudo
-  lineinfile:
-    dest: /etc/sudoers
-    state: present
-    regexp: '^%wheel'
-    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
-    validate: visudo -cf %s
-
-- name: Add sudoers users to wheel group
-  user:
-    name: ubuntu
-    groups: wheel
-    append: yes
-
-- name: Upgrade all packages to the latest version
-  apt:
-    name: "*"
-    state: latest
-
-- name: install packages
-  apt:
-    name: "{{ item }}"
-    state: installed
-  with_items: "{{ packages }}"
+- import_tasks: ansible_config.yml
