@@ -1,9 +1,11 @@
 ---
-- name: Create AWS VM
+- name: Create AWS VM for Ansible Controller
   hosts: localhost
   connection: local
   gather_facts: False
+  become: yes
+  become_method: sudo
   vars_files:
     - ../vars/credentials.yml
   roles:
-    - aws_keypair
+    - provision_ansible_vm

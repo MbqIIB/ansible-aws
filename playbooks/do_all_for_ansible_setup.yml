@@ -1,0 +1,4 @@
+---
+include: localhost_configuration.yml
+include: ansible_provision.yml
+include: ansible_configuration.yml
