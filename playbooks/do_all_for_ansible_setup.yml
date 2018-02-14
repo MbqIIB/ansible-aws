@@ -1,4 +1,4 @@
 ---
-include: localhost_configuration.yml
-include: ansible_provision.yml
-include: ansible_configuration.yml
+- import_playbook: localhost_configuration.yml
+- import_playbook: ansible_provision.yml
+- import_playbook: ansible_configuration.yml

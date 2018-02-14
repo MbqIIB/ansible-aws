@@ -1,7 +1,0 @@
----
-- name: Setup Docker
-  hosts: all
-  become: yes
-  become_method: sudo
-  roles:
-    - docker_setup
