@@ -1,5 +1,5 @@
 ---
-- name: Create AWS VM
+- name: Create AWS Keypairs
   hosts: localhost
   connection: local
   gather_facts: False
