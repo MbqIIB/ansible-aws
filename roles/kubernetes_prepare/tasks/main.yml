@@ -4,9 +4,11 @@
     url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
     dest: /usr/local/bin/kubectl
     mode: 0440
+    state: present
 
 - name: Install kops
   get_url:
     url: "https://github.com/kubernetes/kops/releases/download/{{ kops_version }}/kops-linux-amd64"
     dest: /usr/local/bin/kops
     mode: 0440
+    state: present
