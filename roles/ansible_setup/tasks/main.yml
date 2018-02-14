@@ -49,3 +49,9 @@
   apt:
     name: ansible
     state: installed
+
+- name: install python libraries
+  pip:
+    name: "{{ item }}"
+    state: installed
+  with_items: "{{ python_libs }}"

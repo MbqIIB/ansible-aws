@@ -9,3 +9,6 @@ packages:
     - wget
     - python-pip
     - python-netaddr
+
+python_libs:
+    - boto
