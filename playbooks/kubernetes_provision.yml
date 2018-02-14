@@ -1,0 +1,11 @@
+---
+- name: Create Ansible VM on AWS
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ../vars/credentials.yml
+  roles:
+    - provision_kubernetes_cluster

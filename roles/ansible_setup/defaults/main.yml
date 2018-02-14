@@ -8,3 +8,4 @@ packages:
     - nano
     - wget
     - python-pip
+    - python-netaddr
