@@ -2,13 +2,13 @@
 - name: Clone Ansible-AWS Repository
   git:
     repo: 'https://github.com/jfeddern/ansible-aws.git'
-    dest: ~/
+    dest: ~/ansible-aws/
     clone: yes
     update: yes
 
 - name: Clone Kubespray Repository
   git:
     repo: 'https://github.com/kubernetes-incubator/kubespray.git'
-    dest: ~/
+    dest: ~/kubespray/
     clone: yes
     update: yes
