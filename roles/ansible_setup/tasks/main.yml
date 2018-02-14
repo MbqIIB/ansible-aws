@@ -15,7 +15,7 @@
 
   - name: Add sudoers users to wheel group
     user:
-      name: "{{ item }}"
+      name: ubuntu
       groups: wheel
       append: yes
 
