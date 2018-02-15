@@ -12,7 +12,6 @@
       kube: master
     count: 3
     wait: true
-    assign_public_ip: yes
   register: ec2_master
 
 - name: print provision output
@@ -63,7 +62,6 @@
       kube: node
     count: 3
     wait: true
-    assign_public_ip: yes
   register: ec2_nodes
 
 - name: print provision output
