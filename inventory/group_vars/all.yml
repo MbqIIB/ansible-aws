@@ -6,6 +6,8 @@ ec2_image: ami-93a835fc
 ec2_security_group_name: devops
 ec2_security_group_desc: Security Group for DevOps
 
+ansible_user: ubuntu
+ansible_host: 52.58.187.161
 
 # Valid bootstrap options (required): ubuntu, coreos, centos, none
 bootstrap_os: ubuntu
