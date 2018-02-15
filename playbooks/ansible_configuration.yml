@@ -6,6 +6,7 @@
   become_method: sudo
   vars_files:
     - ../vars/credentials.yml
+    - ../vars/ec2.yml
   roles:
     - ansible_setup
     - aws_kubernetes_keypair
