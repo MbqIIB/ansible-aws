@@ -1,5 +1,5 @@
 ---
-- name: Create Ansible VM on AWS
+- name: Create Kubernetes VMs on AWS
   hosts: localhost
   connection: local
   gather_facts: False

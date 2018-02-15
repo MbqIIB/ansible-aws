@@ -1,7 +1,4 @@
 ---
-ansible_user: ansible
-ansible_host: 52.58.187.161
-
 # Valid bootstrap options (required): ubuntu, coreos, centos, none
 bootstrap_os: ubuntu
 
