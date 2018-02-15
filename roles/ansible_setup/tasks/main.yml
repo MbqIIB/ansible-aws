@@ -22,12 +22,6 @@
     groups: admin
     append: yes
 
-- name: Add authorized key
-  authorized_key:
-    user: ansible
-    state: present
-    key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
-
 - name: Update and upgrade apt packages
   apt:
     upgrade: yes

@@ -1,3 +1,4 @@
 ---
 - import_playbook: ansible_configuration.yml
+- import_playbook: create_keypairs.yml
 - import_playbook: kubernetes_configuration.yml
