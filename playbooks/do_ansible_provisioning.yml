@@ -1,3 +1,2 @@
 ---
-- import_playbook: localhost_configuration.yml
 - import_playbook: ansible_provision.yml

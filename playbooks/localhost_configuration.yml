@@ -7,3 +7,4 @@
     - ../vars/credentials.yml
   roles:
     - setup_localhost
+    - create_ansible_user
