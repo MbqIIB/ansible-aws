@@ -24,11 +24,11 @@
 
 - name: print ec2 masters instances output
   debug:
-    var: ec2_master.instances.id
+    var: ec2_master.instances[0].id
 
 - name: print ec2 masters instances output
   debug:
-    var: ec2_master.instances.dns_name
+    var: ec2_master.instances[0].dns_name
 
 - name: Add the newly created EC2 instance(s) to host group
   lineinfile:
