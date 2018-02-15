@@ -12,6 +12,9 @@
     comment: "Ansible management user"
     home: /home/ansible
     createhome: yes
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
 
 - name: Add Ansible user to admin group
   user:
