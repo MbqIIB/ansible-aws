@@ -29,5 +29,5 @@
 - name: install python libraries
   pip:
     name: "{{ item }}"
-    state: installed
+    state: latest
   with_items: "{{ python_libs }}"
