@@ -35,15 +35,6 @@
       state: present
       regexp: '^%admin'
       line: '%admin ALL=(ALL) NOPASSWD: ALL'
-    when: ansible_os_family == 'Debian'
-
-  - name: Ensure admin group can sudo
-    lineinfile:
-      dest: /etc/sudoers.tmp
-      state: present
-      regexp: '^%admin'
-      insertafter: '^root'
-      line: '%admin ALL=(ALL) NOPASSWD: ALL'
 
   - name: Replace sudoers file
     shell: visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
