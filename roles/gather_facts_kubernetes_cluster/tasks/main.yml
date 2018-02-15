@@ -1,0 +1,5 @@
+---
+- name: Gather Facts
+  ec2_instance_facts:
+    instance_ids:
+      - i-07a8fe94335a23f81
