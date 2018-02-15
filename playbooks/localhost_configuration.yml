@@ -6,6 +6,5 @@
   vars_files:
     - ../vars/credentials.yml
   roles:
-    - create_ansible_user
     - setup_localhost
     - aws_keypair
