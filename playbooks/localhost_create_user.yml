@@ -1,0 +1,10 @@
+---
+- name: Create Ansible User
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars_files:
+    - ../vars/credentials.yml
+    - ../vars/ec2.yml
+  roles:
+    - create_ansible_user
