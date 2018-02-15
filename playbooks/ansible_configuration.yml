@@ -8,3 +8,4 @@
     - ../vars/credentials.yml
   roles:
     - ansible_setup
+    - aws_kubernetes_keypair
