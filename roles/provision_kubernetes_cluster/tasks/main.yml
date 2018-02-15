@@ -10,13 +10,17 @@
     image: "{{ ec2_image }}"
     instance_tags:
       kube: master
-    count: 3
+    count: 1
     wait: true
   register: ec2_master
 
 - name: print provision output
   debug:
     var: ec2_master
+
+- name: print ec2 masters instances output
+  debug:
+    var: ec2_master.instances
 
 - name: Add the newly created EC2 instance(s) to host group
   lineinfile:
