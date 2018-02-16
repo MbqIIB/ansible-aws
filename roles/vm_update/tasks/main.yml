@@ -1,4 +1,37 @@
 ---
+- name: Create admin user group
+  group:
+    name: admin
+    system: yes
+    state: present
+
+- name: Make sure ubuntu user exists
+  user:
+    name: ubuntu
+    state: present
+
+- name: Add ubuntu user to admin group
+  user:
+    name: ubuntu
+    groups: admin
+    append: yes
+
+- name: Copy sudoers file
+  command: cp -f /etc/sudoers /etc/sudoers.tmp
+
+- name: Backup sudoers file
+  command: cp -f /etc/sudoers /etc/sudoers.bak
+
+- name: Ensure admin group can sudo
+  lineinfile:
+    dest: /etc/sudoers.tmp
+    state: present
+    regexp: '^%admin'
+    line: '%admin ALL=(ALL) NOPASSWD: ALL'
+
+- name: Replace sudoers file
+  shell: visudo -q -c -f /etc/sudoers.tmp && cp -f /etc/sudoers.tmp /etc/sudoers
+
 - name: Update and upgrade apt packages
   apt:
     upgrade: yes
