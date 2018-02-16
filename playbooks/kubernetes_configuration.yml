@@ -1,6 +1,6 @@
 ---
 - name: Configure Ansible VM for Kubernetes Install
-  hosts: tag_vm_ansible
+  hosts: tag_vm_kubernetes
   gather_facts: False
   become: yes
   become_method: sudo
