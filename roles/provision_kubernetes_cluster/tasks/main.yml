@@ -64,6 +64,8 @@
     instance_tags:
       kube: "{{ item }}"
     count: 1
+    vpc_subnet_id: subnet-58c56133
+    assign_public_ip: yes
     wait: true
   register: ec2_nodes
   with_items: "{{ kubernetes_node }}"
