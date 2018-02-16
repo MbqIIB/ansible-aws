@@ -10,10 +10,10 @@
     image: "{{ ec2_image }}"
     instance_tags:
       vm: kubernetes
-      kube: master
+      kubespray-role: kube-master, etcd
     count: 3
     wait: true
-    vpc_subnet_id: subnet-58c56133
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
     assign_public_ip: yes
   register: ec2_master
 
@@ -63,9 +63,9 @@
     image: "{{ ec2_image }}"
     instance_tags:
       vm: kubernetes
-      kube: node
+      kubespray-role: kube-node
     count: 3
-    vpc_subnet_id: subnet-58c56133
+    vpc_subnet_id: "{{ vpc_subnet_id }}"
     assign_public_ip: yes
     wait: true
   register: ec2_nodes

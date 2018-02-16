@@ -6,5 +6,6 @@ ec2_instance_type: m3.medium
 ec2_image: ami-93a835fc
 ec2_security_group_name: devops
 ec2_security_group_desc: Security Group for DevOps
+vpc_subnet_id: subnet-58c56133
 hoststring: "ansible_ssh_user=ubuntu"
 hostpath: "~/ansible-aws/inventory/hosts.ini"
