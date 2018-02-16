@@ -1,2 +1,3 @@
 ---
+- import_playbook: kubernetes_aws_keypair.yml
 - import_playbook: kubernetes_provision.yml

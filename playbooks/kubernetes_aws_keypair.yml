@@ -8,4 +8,4 @@
     - ../vars/ec2.yml
   roles:
     - generate_ssh_keys
-    - aws_keypair
+    - aws_kubernetes_keypair
