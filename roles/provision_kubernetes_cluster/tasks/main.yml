@@ -9,13 +9,13 @@
     instance_type: "{{ ec2_instance_type }}"
     image: "{{ ec2_image }}"
     instance_tags:
-      kube: "{{ item }}"
-    count: 1
+      vm: kubernetes
+      kube: master
+    count: 3
     wait: true
     vpc_subnet_id: subnet-58c56133
     assign_public_ip: yes
   register: ec2_master
-  with_items: "{{ kubernetes_master }}"
 
 - name: print provision output
   debug:
@@ -62,13 +62,13 @@
     instance_type: "{{ ec2_instance_type }}"
     image: "{{ ec2_image }}"
     instance_tags:
-      kube: "{{ item }}"
-    count: 1
+      vm: kubernetes
+      kube: node
+    count: 3
     vpc_subnet_id: subnet-58c56133
     assign_public_ip: yes
     wait: true
   register: ec2_nodes
-  with_items: "{{ kubernetes_node }}"
 
 #- name: print provision output
 #  debug:
