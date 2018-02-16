@@ -1,5 +1,6 @@
 ---
-- name: Upgrade all packages to the latest version
+- name: Update and upgrade apt packages
   apt:
-    name: "*"
-    state: latest
+    upgrade: yes
+    update_cache: yes
+    cache_valid_time: 86400

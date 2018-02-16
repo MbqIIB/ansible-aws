@@ -1,9 +1,9 @@
 ---
 - name: Configure Ansible VM for Kubernetes Install
-  hosts: all
+  hosts: tag_vm_ansible
   gather_facts: False
   vars_files:
     - ../vars/credentials.yml
     - ../vars/ec2.yml
   roles:
-    - vm_update
+    - kubernetes_prepare
