@@ -1,8 +1,10 @@
 ---
-kubernetes_cluster:
-    - master-1
-    - master-2
-    - master-3
-    - node-1
-    - node-2
-    - node-3
+kubernetes_master:
+    - master1
+    - master2
+    - master3
+
+kubernetes_node:
+    - node1
+    - node2
+    - node3
