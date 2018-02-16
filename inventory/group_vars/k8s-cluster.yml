@@ -119,12 +119,12 @@ cluster_name: mydevops.kubernetes.cluster.local
 # Subdomains of DNS domain to be resolved via /etc/resolv.conf for hostnet pods
 ndots: 2
 # Can be dnsmasq_kubedns, kubedns, manual or none
-dns_mode: kubedns
+dns_mode: dnsmasq_kubedns
 # Set manual server if using a custom cluster DNS server
 #manual_dns_server: 10.x.x.x
 
 # Can be docker_dns, host_resolvconf or none
-resolvconf_mode: host_resolvconf
+resolvconf_mode: none
 # Deploy netchecker app to verify DNS resolve as an HTTP service
 deploy_netchecker: true
 # Ip address of the kubernetes skydns service
