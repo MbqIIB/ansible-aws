@@ -1,0 +1,12 @@
+---
+- name: Gather Facts
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  become: yes
+  become_method: sudo
+  vars_files:
+    - ../vars/credentials.yml
+    - ../vars/ec2.yml
+  roles:
+    - aws_gather_facts

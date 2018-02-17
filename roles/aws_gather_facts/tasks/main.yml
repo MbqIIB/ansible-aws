@@ -1,0 +1,6 @@
+---
+- name: Gather Facts
+  ec2_instance_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
