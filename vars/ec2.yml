@@ -8,6 +8,12 @@ ec2_instance_profile_name_kube_node: kubernetes-node
 ec2_image: ami-93a835fc
 ec2_security_group_name: devops
 ec2_security_group_desc: Security Group for DevOps
+aws_lb_security_group_name: securitygroup-elb
+#VPC Vars
+aws_vpc_cidr_block: 10.250.192.0/18
+aws_cidr_subnets_private: ['10.250.192.0/20','10.250.208.0/20']
+aws_cidr_subnets_public: ['10.250.224.0/20','10.250.240.0/20']
 vpc_subnet_id: subnet-58c56133
+aws_cluster_name: mydevopscluster
 hoststring: "ansible_ssh_user=ubuntu"
 hostpath: "~/ansible-aws/inventory/hosts.ini"
