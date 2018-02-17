@@ -1,0 +1,46 @@
+---
+- name: Create AWS Virtual Private Cloud
+  ec2_vpc_net:
+    name: "kubernetes-vpc-{{ aws_cluster_name }}"
+    state: present
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    cidr_block: "{{ aws_vpc_cidr_block }}"
+    dns_hostnames: yes
+    dns_support: yes
+    tags:
+      Name: "kubernetes-vpc-{{ aws_cluster_name }}"
+  register: vpc
+
+- name: print vpc output
+  debug:
+    var: vpc
+
+- name: Create VPC Internet Gateway
+  ec2_vpc_igw:
+    vpc_id: " {{ item.id }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    tags:
+      Name: "kubernetes-internetgw-{{ aws_cluster_name }}"
+  register: igw
+  with_items: vpc
+
+- name: Create public VPC Subnet
+  ec2_vpc_subnet:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    vpc_id: vpc-123456
+    cidr: 10.0.1.16/28
+    az:
+      - eu-central-1a
+      - eu-central-1b
+    resource_tags:
+      Name: "kubernetes-public-subnet-{{ aws_cluster_name }}"
+      "kubernetes.io/cluster/mydevopscluster": member
+  register: kubernetes_public_subnet
