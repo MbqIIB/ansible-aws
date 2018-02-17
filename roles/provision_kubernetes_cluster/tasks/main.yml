@@ -8,6 +8,7 @@
     group: "{{ ec2_security_group_name }}"
     instance_type: "{{ ec2_instance_type }}"
     image: "{{ ec2_image }}"
+    instance_profile_name: "{{ ec2_instance_profile_name_kube_master }}"
     instance_tags:
       vm: kubernetes
       kubespray-role: kube-master, etcd
@@ -61,6 +62,7 @@
     group: "{{ ec2_security_group_name }}"
     instance_type: "{{ ec2_instance_type }}"
     image: "{{ ec2_image }}"
+    instance_profile_name: "{{ ec2_instance_profile_name_kube_node }}"
     instance_tags:
       vm: kubernetes
       kubespray-role: kube-node

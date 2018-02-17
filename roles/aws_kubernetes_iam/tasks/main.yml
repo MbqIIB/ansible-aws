@@ -2,23 +2,7 @@
 - name: Create IAM role for kubernetes master
   iam:
     iam_type: role
-    name: kubernetes-master
-    region: "{{ ec2_region }}"
-    ec2_access_key: "{{ ec2_access_key }}"
-    ec2_secret_key: "{{ ec2_secret_key }}"
-    state: present
-    trust_policy:
-      Version: '2012-10-17'
-      Statement:
-      - Action: sts:AssumeRole
-        Effect: Allow
-        Principal:
-          Service: ec2.amazonaws.com
-
-- name: Create IAM role for kubernetes node
-  iam:
-    iam_type: role
-    name: kubernetes-node
+    name: "{{ ec2_instance_profile_name_kube_master }}"
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
@@ -34,8 +18,8 @@
 - name: Assign kubernetes-master-policy to IAM role for Kubernetes-Master
   iam_policy:
     iam_type: role
-    iam_name: kubernetes-master
-    policy_name: kubernetes-master
+    iam_name: "{{ ec2_instance_profile_name_kube_master }}"
+    policy_name: "{{ ec2_instance_profile_name_kube_master }}"
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
@@ -56,11 +40,27 @@
               Effect: Allow
               Resource: 'arn:aws:s3:::kubernetes-*'
 
+- name: Create IAM role for kubernetes node
+  iam:
+    iam_type: role
+    name: "{{ ec2_instance_profile_name_kube_node }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    trust_policy:
+      Version: '2012-10-17'
+      Statement:
+      - Action: sts:AssumeRole
+        Effect: Allow
+        Principal:
+          Service: ec2.amazonaws.com
+
 - name: Assign kubernetes-node-policy to IAM role for Kubernetes-Nodes
   iam_policy:
     iam_type: role
-    iam_name: kubernetes-node
-    policy_name: kubernetes-node
+    iam_name: "{{ ec2_instance_profile_name_kube_node }}"
+    policy_name: "{{ ec2_instance_profile_name_kube_node }}"
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
