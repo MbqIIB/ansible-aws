@@ -17,5 +17,4 @@
         state: stopped
         instance_tags:
           vm: kubernetes
-          vm: ansible
         wait: True

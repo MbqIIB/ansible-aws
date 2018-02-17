@@ -12,3 +12,4 @@ packages:
 
 python_libs:
     - boto
+    - boto3
