@@ -2,11 +2,17 @@
 - name: Create IAM Role and Policy for Kubernetes Master
   iam_role:
     name: kubernetes-master
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
     assume_role_policy_document: ../file/kubernetes-master-policy.json
     state: present
 
 - name: Create IAM Role and Policy for Kubernetes Nodes
   iam_role:
     name: kubernetes-node
-    assume_role_policy_document: "{{ lookup('file','kubernetes-node-policy.json') }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    assume_role_policy_document: ../file/kubernetes-node-policy.json
     state: present
