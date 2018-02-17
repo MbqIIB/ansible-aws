@@ -1,3 +1,4 @@
 ---
 - import_playbook: kubernetes_aws_keypair.yml
+- import_playbook: aws_iam_roles.yml
 - import_playbook: kubernetes_provision.yml

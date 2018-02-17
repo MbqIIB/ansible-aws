@@ -1,0 +1,12 @@
+---
+- name: Create IAM Role and Policy for Kubernetes Master
+  iam_role:
+    name: kubernetes-master
+    assume_role_policy_document: "{{ lookup('file','kubernetes-master-policy.json') }}"
+    state: present
+
+- name: Create IAM Role and Policy for Kubernetes Nodes
+  iam_role:
+    name: kubernetes-node
+    assume_role_policy_document: "{{ lookup('file','kubernetes-node-policy.json') }}"
+    state: present
