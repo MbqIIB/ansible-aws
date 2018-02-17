@@ -3,25 +3,23 @@
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": ["ec2:*"],
-      "Resource": ["*"]
+      "Action": "ec2:*",
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
-      "Action": ["elasticloadbalancing:*"],
-      "Resource": ["*"]
+      "Action": "elasticloadbalancing:*",
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
-      "Action": ["route53:*"],
-      "Resource": ["*"]
+      "Action": "route53:*",
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
       "Action": "s3:*",
-      "Resource": [
-        "arn:aws:s3:::kubernetes-*"
-      ]
+      "Resource": "arn:aws:s3:::kubernetes-*"
     }
   ]
 }
