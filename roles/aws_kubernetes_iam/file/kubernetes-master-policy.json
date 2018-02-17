@@ -2,23 +2,27 @@
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Effect": "Allow",
-      "Action": "ec2:*",
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
+      "Sid": "Stmt1518859651732",
       "Action": "elasticloadbalancing:*",
+      "Effect": "Allow",
       "Resource": "*"
     },
     {
+      "Sid": "Stmt1518859683455",
+      "Action": "ec2:*",
       "Effect": "Allow",
+      "Resource": "*"
+    },
+    {
+      "Sid": "Stmt1518859730487",
       "Action": "route53:*",
+      "Effect": "Allow",
       "Resource": "*"
     },
     {
-      "Effect": "Allow",
+      "Sid": "Stmt1518859781441",
       "Action": "s3:*",
+      "Effect": "Allow",
       "Resource": "arn:aws:s3:::kubernetes-*"
     }
   ]
