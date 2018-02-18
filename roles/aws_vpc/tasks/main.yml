@@ -66,7 +66,7 @@
 
 - name: set fact igw_id
   set_fact:
-    igw_id: "{{ igw_facts.internet_gateways.internet_gateway_id }}"
+    igw_id: "{{ igw_facts.internet_gateways[0].internet_gateway_id }}"
 
 - name: Create public VPC Subnet
   ec2_vpc_subnet:
