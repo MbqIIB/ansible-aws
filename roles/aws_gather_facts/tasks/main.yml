@@ -1,21 +1,4 @@
 ---
-- name: Gather facts about a filtered list of Internet Gateways
-  ec2_vpc_igw_facts:
-    region: "{{ ec2_region }}"
-    ec2_access_key: "{{ ec2_access_key }}"
-    ec2_secret_key: "{{ ec2_secret_key }}"
-    filters:
-        "tag:Name": "kubernetes-internetgw-{{ aws_cluster_name }}"
-  register: igw_facts
-
-- name: set fact igw_id
-  set_fact:
-    igw_id: "{{ igw_facts.internet_gateways[0].internet_gateway_id }}"
-
-- name: print igw_id
-  debug:
-    var: igw_id
-
 - ec2_vpc_subnet_facts:
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
@@ -34,4 +17,8 @@
 
 - name: set fact combine subnet and igw id
   set_fact:
-    new_value: "{{ public_subnet_ids }}|combine({{ igw_id }})"
+    new_value: "{{ (list1 + list2) | list }}"
+
+- name: print
+  debug:
+    var: new_value
