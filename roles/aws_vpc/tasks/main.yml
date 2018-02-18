@@ -84,13 +84,17 @@
   register: kubernetes_public_subnet
   with_items: "{{ aws_subnet_public }}"
 
-- name: print public subnet output
-  debug:
-    var: kubernetes_public_subnet
+- ec2_vpc_subnet_facts:
+    filters:
+      region: "{{ ec2_region }}"
+      ec2_access_key: "{{ ec2_access_key }}"
+      ec2_secret_key: "{{ ec2_secret_key }}"
+      "tag:Name": "kubernetes-public-subnet-{{ aws_cluster_name }}"
+  register: subnet_facts
 
 - name: set fact kubernetes_public_subnet
   set_fact:
-    subnet_id: "{{ kubernetes_public_subnet.subnet_id }}"
+    subnet_ids: "{{ subnet_facts.results|map(attribute='subnets.0.id')|list }}"
 
 - name: Create new nat gateway using an allocation-id
   ec2_vpc_nat_gateway:
@@ -101,7 +105,7 @@
     subnet_id: "{{ item }}"
     allocation_id: "{{ allocation_id }}"
   register: nat_gateway
-  with_items: "{{ subnet_id }}"
+  with_items: "{{ subnet_ids }}"
 
 - name: print nat gateway output
   debug:
