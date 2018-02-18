@@ -75,3 +75,45 @@
   register: kubernetes_public_subnet
   with_items: "{{ aws_subnet_public }}"
 
+- name: print public subnet output
+  debug:
+    var: kubernetes_public_subnet
+
+- name: set fact igw_id
+  set_fact:
+    subnet_id: "{{ kubernetes_public_subnet.subnet_id }}"
+
+- name: Create new nat gateway using an allocation-id
+  ec2_vpc_nat_gateway:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    subnet_id: "{{ item }}"
+    allocation_id: "{{ allocation_id }}"
+  register: nat_gateway
+  with_items: "{{ subnet_id }}"
+
+- name: print nat gateway output
+  debug:
+    var: nat_gateway
+
+- name: Create private VPC Subnet
+  ec2_vpc_subnet:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    vpc_id: " {{ vpc_id }}"
+    cidr: "{{ item.cidr }}"
+    az: "{{ item.availability_zone }}"
+    map_public: yes
+    resource_tags:
+      Name: "kubernetes-private-subnet-{{ aws_cluster_name }}"
+      "kubernetes.io/cluster/mydevopscluster": member
+  register: kubernetes_private_subnet
+  with_items: "{{ aws_subnet_private }}"
+
+- name: print private subnet output
+  debug:
+    var: kubernetes_private_subnet

@@ -21,6 +21,11 @@ aws_subnet_public:
     availability_zone: eu-central-1a
   - cidr: "10.250.240.0/20"
     availability_zone: eu-central-1b
+aws_subnet_private:
+  - cidr: "10.250.192.0/20"
+    availability_zone: eu-central-1a
+  - cidr: "10.250.208.0/20"
+    availability_zone: eu-central-1b
 vpc_subnet_id: subnet-58c56133
 aws_cluster_name: mydevopscluster
 hoststring: "ansible_ssh_user=ubuntu"
