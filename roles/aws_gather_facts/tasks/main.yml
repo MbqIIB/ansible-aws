@@ -31,3 +31,7 @@
 - name: print public subnet_ids
   debug:
     var: public_subnet_ids
+
+- name: set fact combine subnet and igw id
+  set_fact:
+    new_value: "{{ public_subnet_ids }}|combine({{ igw_id }})"
