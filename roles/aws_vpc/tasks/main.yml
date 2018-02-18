@@ -26,7 +26,8 @@
     in_vpc: yes
     public_ip: yes
   register: eip
-  with_sequence: count=2
+  with_sequence:
+    count: 2
 
 - name: set fact allocation_id
   set_fact:
@@ -99,7 +100,7 @@
     allocation_id: "{{ item[1] }}"
     wait: yes
   with_items:
-    - "{{ subnet_ids }}"
+    - "{{ public_subnet_ids }}"
     - "{{ allocation_ids }}"
 
 - name: Get all nat gateways with specific filters
