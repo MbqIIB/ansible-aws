@@ -13,10 +13,6 @@
       Name: "kubernetes-vpc-{{ aws_cluster_name }}"
   register: vpc
 
-- name: print vpc output
-  debug:
-    var: vpc
-
 - name: set fact vpc_id
   set_fact:
     vpc_id: "{{ vpc.vpc.id }}"
@@ -28,16 +24,13 @@
     ec2_secret_key: "{{ ec2_secret_key }}"
     state: present
     in_vpc: yes
-    reuse_existing_ip_allowed: yes
+    public_ip: yes
+    count: 2
   register: eip
-
-- name: print eip output
-  debug:
-    var: eip
 
 - name: set fact allocation_id
   set_fact:
-    allocation_id: "{{ eip.allocation_id }}"
+    allocation_ids: "{{ eip.results|map(attribute='allocation_id')|list }}"
 
 - name: Create VPC Internet Gateway
   ec2_vpc_igw:
@@ -59,10 +52,6 @@
     filters:
         "tag:Name": "kubernetes-internetgw-{{ aws_cluster_name }}"
   register: igw_facts
-
-- name: print igw_facts
-  debug:
-    var: igw_facts
 
 - name: set fact igw_id
   set_fact:
@@ -90,20 +79,15 @@
     ec2_secret_key: "{{ ec2_secret_key }}"
     filters:
       "tag:Name": "kubernetes-public-subnet-{{ aws_cluster_name }}"
-  register: subnet_facts
-
-- name: print subnet_facts
-  debug:
-    var: subnet_facts
+  register: public_subnet_facts
 
 - name: set fact kubernetes_public_subnet
   set_fact:
-    subnet_ids: "{{ subnet_facts.subnets|map(attribute='id')|list }}"
-#    subnet_ids: "{{ subnet_facts|map(attribute='subnets.0.id')|list }}"
+    public_subnet_ids: "{{ public_subnet_facts.subnets|map(attribute='id')|list }}"
 
 - name: print subnet_ids
   debug:
-    var: subnet_ids
+    var: public_subnet_ids
 
 - name: Create new nat gateway using an allocation-id
   ec2_vpc_nat_gateway:
@@ -111,14 +95,27 @@
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     state: present
-    subnet_id: "{{ item }}"
-    allocation_id: "{{ allocation_id }}"
-  register: nat_gateway
-  with_items: "{{ subnet_ids }}"
+    subnet_id: "{{ item[0] }}"
+    allocation_id: "{{ item[1] }}"
+    wait: yes
+  with_items:
+    - "{{ subnet_ids }}"
+    - "{{ allocation_ids }}"
 
-- name: print nat gateway output
-  debug:
-    var: nat_gateway
+- name: Get all nat gateways with specific filters
+  ec2_vpc_nat_gateway_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+      subnet-id: "{{ item }}"
+      state: ['available']
+  register: nat_gateway_facts
+  with_items: "{{ public_subnet_ids }}"
+
+- name: Set fact Nat Gateways IDs
+  set_fact:
+    nat_gateway_ids: "{{ nat_gateway_facts.nat_gateways|map(attribute='nat_gateway_id')|list }}"
 
 - name: Create private VPC Subnet
   ec2_vpc_subnet:
@@ -129,13 +126,56 @@
     vpc_id: " {{ vpc_id }}"
     cidr: "{{ item.cidr }}"
     az: "{{ item.availability_zone }}"
-    map_public: yes
     resource_tags:
       Name: "kubernetes-private-subnet-{{ aws_cluster_name }}"
       "kubernetes.io/cluster/mydevopscluster": member
   register: kubernetes_private_subnet
   with_items: "{{ aws_subnet_private }}"
 
-- name: print private subnet output
+- ec2_vpc_subnet_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+      "tag:Name": "kubernetes-private-subnet-{{ aws_cluster_name }}"
+  register: private_subnet_facts
+
+- name: set fact kubernetes_public_subnet
+  set_fact:
+    private_subnet_ids: "{{ private_subnet_facts.subnets|map(attribute='id')|list }}"
+
+- name: print subnet_ids
   debug:
-    var: kubernetes_private_subnet
+    var: private_subnet_ids
+
+- name: Set up public subnet route table
+  ec2_vpc_route_table:
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    tags:
+      Name: "kubernetes-public-routetable-{{ aws_cluster_name }}"
+    subnets: "{{ item }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ igw_id }}"
+  register: public_route_table
+  with_items: "{{ public_subnet_ids }}"
+
+- name: Set up NAT-protected route table
+  ec2_vpc_route_table:
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    tags:
+      Name: "kubernetes-private-routetable-{{ aws_cluster_name }}"
+    subnets: "{{ item[0] }}"
+    routes:
+      - dest: 0.0.0.0/0
+        instance_id: "{{ item[1] }}"
+  register: nat_route_table
+  with_items:
+    - "{{ private_subnet_ids }}"
+    - "{{ nat_gateways_ids }}"
