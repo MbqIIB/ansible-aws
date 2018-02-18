@@ -19,7 +19,7 @@
 
 - name: set fact vpc_id
   set_fact:
-    vpc_id: "{{ vpc.id }}"
+    vpc_id: "{{ vpc.vpc.id }}"
 
 - name: allocate a new elastic IP inside a VPC
   ec2_eip:
