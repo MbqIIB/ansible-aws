@@ -1,21 +1,33 @@
 ---
+- name: Gather facts about a filtered list of Internet Gateways
+  ec2_vpc_igw_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    filters:
+        "tag:Name": "kubernetes-internetgw-{{ aws_cluster_name }}"
+  register: igw_facts
+
+- name: set fact igw_id
+  set_fact:
+    igw_id: "{{ igw_facts.internet_gateways[0].internet_gateway_id }}"
+
+- name: print igw_id
+  debug:
+    var: "{{ igw_id }}"
+
 - ec2_vpc_subnet_facts:
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     filters:
       "tag:Name": "kubernetes-public-subnet-{{ aws_cluster_name }}"
-  register: subnet_facts
-
-- name: print subnet_facts
-  debug:
-    var: subnet_facts
+  register: public_subnet_facts
 
 - name: set fact kubernetes_public_subnet
   set_fact:
-    subnet_ids: "{{ subnet_facts.subnets|map(attribute='id')|list }}"
-#    subnet_ids: "{{ subnet_facts|map(attribute='subnets.0.id')|list }}"
+    public_subnet_ids: "{{ public_subnet_facts.subnets|map(attribute='id')|list }}"
 
-- name: print subnet_ids
+- name: print public subnet_ids
   debug:
-    var: subnet_ids
+    var: public_subnet_ids
