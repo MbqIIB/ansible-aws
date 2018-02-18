@@ -17,9 +17,26 @@
   debug:
     var: vpc
 
+- name: set fact vpc_id
+  set_fact:
+    vpc_id: "{{ vpc.id }}"
+
+- name: allocate a new elastic IP inside a VPC
+  ec2_eip:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
+    state: present
+    in_vpc: yes
+  register: eip
+
+- name: print eip output
+  debug:
+    var: vpc
+
 - name: Create VPC Internet Gateway
   ec2_vpc_igw:
-    vpc_id: " {{ item.id }}"
+    vpc_id: " {{ vpc_id }}"
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
@@ -27,7 +44,14 @@
     tags:
       Name: "kubernetes-internetgw-{{ aws_cluster_name }}"
   register: igw
-  with_items: vpc
+
+- name: print igw output
+  debug:
+    var: igw
+
+- name: set fact igw_id
+  set_fact:
+    igw_id: "{{ igw.id }}"
 
 - name: Create public VPC Subnet
   ec2_vpc_subnet:
@@ -35,12 +59,13 @@
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
     state: present
-    vpc_id: vpc-123456
-    cidr: 10.0.1.16/28
-    az:
-      - eu-central-1a
-      - eu-central-1b
+    vpc_id: " {{ vpc_id }}"
+    cidr: "{{ aws_cidr_subnets_public }}"
+    az: "{{ item }}"
+    map_public: yes
     resource_tags:
       Name: "kubernetes-public-subnet-{{ aws_cluster_name }}"
       "kubernetes.io/cluster/mydevopscluster": member
   register: kubernetes_public_subnet
+  with_items: "{{ aws_availability_zones }}"
+

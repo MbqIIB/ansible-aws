@@ -1,5 +1,8 @@
 ---
 ec2_region: eu-central-1
+aws_availability_zones:
+    - eu-central-1a
+    - eu-central-1b
 ec2_keypair: mykeypair
 kubernetes_keypair: kuberneteskeypair
 ec2_instance_type: m3.medium
