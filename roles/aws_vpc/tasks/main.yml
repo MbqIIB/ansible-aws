@@ -92,6 +92,10 @@
       "tag:Name": "kubernetes-public-subnet-{{ aws_cluster_name }}"
   register: subnet_facts
 
+- name: print subnet_facts
+  debug:
+    var: subnet_facts
+
 - name: set fact kubernetes_public_subnet
   set_fact:
     subnet_ids: "{{ subnet_facts.results|map(attribute='subnets.0.id')|list }}"
