@@ -14,7 +14,7 @@
 
 - name: print igw_id
   debug:
-    var: "{{ igw_id }}"
+    var: igw_id
 
 - ec2_vpc_subnet_facts:
     region: "{{ ec2_region }}"
