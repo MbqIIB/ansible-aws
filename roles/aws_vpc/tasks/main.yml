@@ -25,8 +25,8 @@
     state: present
     in_vpc: yes
     public_ip: yes
-    count: 2
   register: eip
+  with_sequence: count=2
 
 - name: set fact allocation_id
   set_fact:
