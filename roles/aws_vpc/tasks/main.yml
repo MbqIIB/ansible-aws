@@ -33,6 +33,10 @@
   set_fact:
     allocation_ids: "{{ eip.results|map(attribute='allocation_id')|list }}"
 
+- name: print allocation_ids
+  debug:
+    var: allocation_ids
+
 - name: Create VPC Internet Gateway
   ec2_vpc_igw:
     vpc_id: " {{ vpc_id }}"
@@ -57,6 +61,10 @@
 - name: set fact igw_id
   set_fact:
     igw_id: "{{ igw_facts.internet_gateways[0].internet_gateway_id }}"
+    
+- name: print internet gateway id
+  debug:
+    var: igw_id
 
 - name: Create public VPC Subnet
   ec2_vpc_subnet:
@@ -86,7 +94,7 @@
   set_fact:
     public_subnet_ids: "{{ public_subnet_facts.subnets|map(attribute='id')|list }}"
 
-- name: print subnet_ids
+- name: print public subnet_ids
   debug:
     var: public_subnet_ids
 
