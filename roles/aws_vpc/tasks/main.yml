@@ -32,7 +32,11 @@
 
 - name: print eip output
   debug:
-    var: vpc
+    var: eip
+
+- name: set fact allocation_id
+  set_fact:
+    allocation_id: "{{ eip.allocation_id }}"
 
 - name: Create VPC Internet Gateway
   ec2_vpc_igw:
@@ -51,7 +55,7 @@
 
 - name: set fact igw_id
   set_fact:
-    igw_id: "{{ igw.id }}"
+    igw_id: "{{ igw.gateway_id }}"
 
 - name: Create public VPC Subnet
   ec2_vpc_subnet:
@@ -60,12 +64,12 @@
     ec2_secret_key: "{{ ec2_secret_key }}"
     state: present
     vpc_id: " {{ vpc_id }}"
-    cidr: "{{ aws_cidr_subnets_public }}"
-    az: "{{ item }}"
+    cidr: "{{ item.cidr }}"
+    az: "{{ item.availability_zone }}"
     map_public: yes
     resource_tags:
       Name: "kubernetes-public-subnet-{{ aws_cluster_name }}"
       "kubernetes.io/cluster/mydevopscluster": member
   register: kubernetes_public_subnet
-  with_items: "{{ aws_availability_zones }}"
+  with_items: "{{ aws_subnet_public }}"
 
