@@ -98,7 +98,12 @@
 
 - name: set fact kubernetes_public_subnet
   set_fact:
-    subnet_ids: "{{ subnet_facts.results|map(attribute='subnets.0.id')|list }}"
+    subnet_ids: "{{ subnet_facts.subnets|map(attribute='id')|list }}"
+#    subnet_ids: "{{ subnet_facts|map(attribute='subnets.0.id')|list }}"
+
+- name: print subnet_ids
+  debug:
+    var: subnet_ids
 
 - name: Create new nat gateway using an allocation-id
   ec2_vpc_nat_gateway:
