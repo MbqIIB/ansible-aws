@@ -85,10 +85,10 @@
   with_items: "{{ aws_subnet_public }}"
 
 - ec2_vpc_subnet_facts:
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
     filters:
-      region: "{{ ec2_region }}"
-      ec2_access_key: "{{ ec2_access_key }}"
-      ec2_secret_key: "{{ ec2_secret_key }}"
       "tag:Name": "kubernetes-public-subnet-{{ aws_cluster_name }}"
   register: subnet_facts
 
