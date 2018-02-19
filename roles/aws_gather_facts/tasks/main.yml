@@ -6,6 +6,7 @@
     filters:
       "tag:Name": "kubernetes-bastion-{{ aws_cluster_name }}"
       "tag:Role": "master"
+      "state:name": "running"
   register: ec2_master_instances
 
 - name: debug ec2_master_instances
@@ -14,7 +15,7 @@
 
 - name: Set ec2_master_instances
   set_fact:
-    kubernetes_master_ids: "{{ ec2_master_instances|map(attribute='instance_ids')|list }}"
+    kubernetes_master_ids: "{{ ec2_master_instances|map(attribute='instance_id')|list }}"
 
 - name: debug kubernetes_master_ids
   debug:
