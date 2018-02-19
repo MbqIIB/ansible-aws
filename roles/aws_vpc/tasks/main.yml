@@ -81,10 +81,6 @@
   register: kubernetes_public_subnet
   with_items: "{{ aws_subnet_public }}"
 
-- name: print kubernetes_public_subnet
-  debug:
-    var: kubernetes_public_subnet
-
 - name: set fact kubernetes_public_subnet
   set_fact:
     public_subnet_id: "{{ kubernetes_public_subnet.results[0].subnet.id }}"
@@ -101,12 +97,7 @@
     state: present
     subnet_id: "{{ public_subnet_id }}"
     allocation_id: "{{ allocation_id }}"
-#    wait: yes
   register: nat_gateway
-
-- name: print nat_gateway
-  debug:
-    var: nat_gateway
 
 - name: Set fact Nat Gateways IDs
   set_fact:
@@ -126,10 +117,6 @@
       kubernetes.io/cluster/mydevopscluster: member
   register: kubernetes_private_subnet
   with_items: "{{ aws_subnet_private }}"
-
-- name: print kubernetes_private_subnet
-  debug:
-    var: kubernetes_private_subnet
 
 - name: set fact kubernetes_private_subnet
   set_fact:
