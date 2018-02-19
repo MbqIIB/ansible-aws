@@ -1,4 +1,17 @@
 ---
+- ec2_instance_facts:
+    filters:
+      "tag:Name": "kubernetes-bastion-{{ aws_cluster_name }}"
+  register: ec2_master_instances
+
+- name: debug ec2_master_instances
+  debug:
+    var: ec2_master_instances
+
+- name: Set ec2_master_instances
+  set_fact:
+    kubernetes_master_ids: "{{ ec2_master_instances|map(attribute='instance_ids')|list }}"
+
 - action:
     module: ec2_elb_facts
     names: "kubernetes-elb-{{ aws_cluster_name }}"
