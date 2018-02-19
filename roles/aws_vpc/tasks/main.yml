@@ -164,5 +164,5 @@
     subnets: "{{ private_subnet_id }}"
     routes:
       - dest: 0.0.0.0/0
-        instance_id: "{{ nat_gateways_id }}"
+        instance_id: "{{ nat_gateway_id }}"
   register: nat_route_table
