@@ -1,45 +1,30 @@
 ---
-- name: Create AWS security group for ELB
-  ec2_group:
-    name: "{{ aws_lb_security_group_name }}"
-    description: "AWS ELB SG"
+- name: Create new Elastic Loadbalancer for Kubernetes API
+  elb_classic_lb:
+    name: "kubernetes-elb-{{ aws_cluster_name }}"
+    state: present
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
-    vpc_id: #TODO
-    rules:
-      - proto: tcp
-        from_port: 6443
-        to_port: 6443
-        cidr_ip: 0.0.0.0/0
-        group_name: aws-allow-api-access
-        group_desc: "Allow API Access"
-    rules_egress:
-      - proto: tcp
-        from_port: 0
-        to_port: 65535
-        cidr_ip: 0.0.0.0/0
-        group_name: aws-allow-api-egress
-        group_desc: "Allow API Egress"
-  register: elb_sg
-
-- name: debug SG
-  debug:
-    var: elb_sg
-
-- local_action:
-  module: ec2_elb_lb
-  name: "kubernetes-elb-{{ aws_cluster_name }}"
-  state: present
-  region: "{{ ec2_region }}"
-  ec2_access_key: "{{ ec2_access_key }}"
-  ec2_secret_key: "{{ ec2_secret_key }}"
-  security_group_ids: 'sg-123456, sg-67890'
-  subnets: 'subnet-123456,subnet-67890'
-  zones:
-    - eu-central-1a
-    - eu-central-1b
-  listeners:
-    - protocol: tcp
-      load_balancer_port: 6443
-      instance_port: 6443
+    security_group_ids:
+      - "{{ sg_elb_id }}"
+    subnets:
+      - "{{ public_subnet_id }}"
+    zones:
+      - "{{ aws_subnet_public.availability_zone }}"
+    connection_draining_timeout: 400
+    idle_timeout: 400
+    listeners:
+      - protocol: tcp
+        load_balancer_port: 6443
+        instance_port: 6443
+    health_check:
+      ping_protocol: tcp # options are http, https, ssl, tcp
+      ping_port: 6443
+      response_timeout: 5 # seconds
+      interval: 30 # seconds
+      unhealthy_threshold: 2
+      healthy_threshold: 2
+    tags:
+      Name: "kubernetes-elb-{{ aws_cluster_name }}"
+  register: elb
