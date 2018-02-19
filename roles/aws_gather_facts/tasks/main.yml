@@ -6,7 +6,7 @@
     filters:
       "tag:Name": "kubernetes-bastion-{{ aws_cluster_name }}"
       "tag:Role": "master"
-      "state:name": "running"
+      "instance-state-name": "running"
   register: ec2_master_instances
 
 - name: debug ec2_master_instances
