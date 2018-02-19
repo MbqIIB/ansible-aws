@@ -11,15 +11,15 @@
   debug:
     var: elb_facts
 
-- name: Set ELB ID
+- name: Set elb_name
   set_fact:
-    elb_id: "{{ elb_facts.ec2_elbs|map(attribute='id')|list }}"
+    elb_name: "{{ elb_facts.elbs|map(attribute='name')|list }}"
 
 - name: Instance Register
   local_action:
     module: ec2_elb
     instance_id: "{{ item }}"
-    ec2_elbs: "{{ elb_id }}"
+    ec2_elbs: "{{ elb_name }}"
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
