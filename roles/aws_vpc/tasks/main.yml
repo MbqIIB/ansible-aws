@@ -110,7 +110,7 @@
 
 - name: Set fact Nat Gateways IDs
   set_fact:
-    nat_gateway_id: "{{ nat_gateway.results[0].nat_gateway_id }}"
+    nat_gateway_id: "{{ nat_gateway.nat_gateway_id }}"
 
 - name: Create private VPC Subnet
   ec2_vpc_subnet:
