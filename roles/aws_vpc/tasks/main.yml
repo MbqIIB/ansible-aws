@@ -101,7 +101,7 @@
     state: present
     subnet_id: "{{ public_subnet_id }}"
     allocation_id: "{{ allocation_id }}"
-    wait: yes
+#    wait: yes
   register: nat_gateway
 
 - name: print nat_gateway
