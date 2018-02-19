@@ -46,7 +46,7 @@
 
 - name: Set Kubernetes Master IDs
   set_fact:
-    kubernetes_master_ids: "{{ ec2_kubernetes_master.results|map(attribute='instance_id')|list }}"
+    kubernetes_master_ids: "{{ ec2_kubernetes_master|map(attribute='instance_ids')|list }}"
 
 - action:
     module: ec2_elb_facts

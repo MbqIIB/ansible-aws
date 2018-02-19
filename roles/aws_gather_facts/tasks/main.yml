@@ -1,24 +1,9 @@
 ---
-- ec2_vpc_subnet_facts:
-    region: "{{ ec2_region }}"
-    ec2_access_key: "{{ ec2_access_key }}"
-    ec2_secret_key: "{{ ec2_secret_key }}"
-    filters:
-      "tag:Name": "kubernetes-public-subnet-{{ aws_cluster_name }}"
-  register: public_subnet_facts
+- action:
+    module: ec2_elb_facts
+    names: "kubernetes-elb-{{ aws_cluster_name }}"
+  register: elb_facts
 
-- name: set fact kubernetes_public_subnet
+- name: Set ELB ID
   set_fact:
-    public_subnet_ids: "{{ public_subnet_facts.subnets|map(attribute='id')|list }}"
-
-- name: print public subnet_ids
-  debug:
-    var: public_subnet_ids
-
-- name: set fact combine subnet and igw id
-  set_fact:
-    new_value: "{{ (list1 + list2) | list }}"
-
-- name: print
-  debug:
-    var: new_value
+    elb_id: "{{ elb_facts.ec2_elbs|map(attribute='id')|list }}"
