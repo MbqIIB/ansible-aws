@@ -15,7 +15,7 @@
 
 - name: Set ec2_master_instances
   set_fact:
-    kubernetes_master_ids: "{{ ec2_master_instances|map(attribute='instance_id')|list }}"
+    kubernetes_master_ids: "{{ ec2_master_instances.instances|map(attribute='instance_id')|list }}"
 
 - name: debug kubernetes_master_ids
   debug:
