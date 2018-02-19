@@ -6,12 +6,9 @@
     region: "{{ ec2_region }}"
     ec2_access_key: "{{ ec2_access_key }}"
     ec2_secret_key: "{{ ec2_secret_key }}"
-    security_group_ids:
-      - "{{ sg_elb_id }}"
-    subnets:
-      - "{{ public_subnet_id }}"
-    zones:
-      - "{{ aws_subnet_public.availability_zone }}"
+    security_group_ids: "{{ sg_elb_id }}"
+    subnets: "{{ public_subnet_id }}"
+    zones: "{{ item.availability_zone }}"
     connection_draining_timeout: 400
     idle_timeout: 400
     listeners:
@@ -28,3 +25,4 @@
     tags:
       Name: "kubernetes-elb-{{ aws_cluster_name }}"
   register: elb
+  with_items: "{{ aws_subnet_public }}"
