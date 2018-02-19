@@ -7,6 +7,10 @@
     ec2_secret_key: "{{ ec2_secret_key }}"
   register: elb_facts
 
+- name: print elb_facts
+  debug:
+    var: elb_facts
+
 - name: Set ELB ID
   set_fact:
     elb_id: "{{ elb_facts.ec2_elbs|map(attribute='id')|list }}"
