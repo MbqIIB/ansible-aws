@@ -1,6 +1,6 @@
 ---
 - name: Create new Elastic Loadbalancer for Kubernetes API
-  elb_classic_lb:
+  ec2_elb_lb:
     name: "kubernetes-elb-{{ aws_cluster_name }}"
     state: present
     region: "{{ ec2_region }}"
@@ -14,6 +14,13 @@
       - protocol: tcp
         load_balancer_port: 6443
         instance_port: 6443
+    health_check:
+      ping_protocol: tcp # options are http, https, ssl, tcp
+      ping_port: 6443
+      response_timeout: 5 # seconds
+      interval: 30 # seconds
+      unhealthy_threshold: 2
+      healthy_threshold: 2
     tags:
       Name: "kubernetes-elb-{{ aws_cluster_name }}"
   register: elb
