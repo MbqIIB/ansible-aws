@@ -6,3 +6,8 @@ list1:
 list2:
     - zdf
     - hallo
+
+kubernetes_master_ids:
+    - i-08a86008e8097047c
+    - i-0b564445bf72a336d
+    - i-08e1687908405ae86

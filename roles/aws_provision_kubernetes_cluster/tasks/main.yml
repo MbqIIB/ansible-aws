@@ -51,6 +51,9 @@
 - action:
     module: ec2_elb_facts
     names: "kubernetes-elb-{{ aws_cluster_name }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
   register: elb_facts
 
 - name: Set ELB ID
@@ -61,7 +64,10 @@
   local_action:
     module: ec2_elb
     instance_id: "{{ item }}"
-    ec2_elbs:
+    ec2_elbs: "{{ elb_id }}"
+    region: "{{ ec2_region }}"
+    ec2_access_key: "{{ ec2_access_key }}"
+    ec2_secret_key: "{{ ec2_secret_key }}"
     state: present
   with_items: "{{ kubernetes_master_ids }}"
 
