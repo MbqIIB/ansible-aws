@@ -9,6 +9,7 @@ ec2_instance_type: m3.medium
 ec2_instance_profile_name_kube_master: kubernetes-master
 ec2_instance_profile_name_kube_node: kubernetes-node
 ec2_image: ami-93a835fc
+ec2_ubuntu16_image: ami-714f2b1e
 ec2_security_group_name: devops
 ec2_security_group_desc: Security Group for DevOps
 aws_lb_security_group_name: securitygroup-elb
