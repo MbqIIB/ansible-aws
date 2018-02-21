@@ -9,7 +9,7 @@
     instance_type: "{{ ec2_instance_type }}"
     image: "{{ ec2_ubuntu16_image }}"
     instance_tags:
-      Name: "kubernetes-bastion-{{ aws_cluster_name }}"
+      Name: "bastion"
       Cluster: "{{ aws_cluster_name }}"
       Role: "bastion"
       kubespray-role: "bastion"
